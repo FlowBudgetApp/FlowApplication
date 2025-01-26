@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { BottomNavigation } from 'react-native-paper'; //Library from the native-paper open source matrial
 
 //Import our screens for connection
-import AccountsScreen from '../Screens/Accounts';
-import HomeScreen from '../Screens/Home';
-import PlannerScreen from '../Screens/Planner';
-import TransactionsScreen from '../Screens/Transactions';
+import AccountsScreen from '../../Screens/Accounts';
+import HomeScreen from '../../Screens/Home';
+import PlannerScreen from '../../Screens/Planner';
+import TransactionsScreen from '../../Screens/Transactions';
 
 const Navigation = () => { // Base function from the BottomNavigation api on native-paper
   const [index, setIndex] = useState(0);

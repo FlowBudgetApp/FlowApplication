@@ -1,10 +1,25 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import Header from '../../Components/Header'
 
 export default function Planner() {
+  const settingsPressed = () => {
+    // Menu handling logic
+  };
+
+  const profilePressed = () => {
+    // Add handling logic
+  };
+
   return (
     <View style={styles.container}>
-      {/* Page content */}
+      <Header
+        title="Planner"
+        leftIcon="cog"
+        rightIcon="account"
+        onLeftPress={settingsPressed}
+        onRightPress={profilePressed}
+      />
     </View>
   );
 }
@@ -12,6 +27,6 @@ export default function Planner() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 0,
   },
 });

@@ -1,10 +1,25 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import Header from '../../Components/Header'
 
 export default function Home() {
+  const settingsPressed = () => {
+    // Menu handling logic
+  };
+
+  const profilePressed = () => {
+    // Add handling logic
+  };
+
   return (
     <View style={styles.container}>
-      {/* Page content */}
+      <Header
+        title="Dashboard"
+        leftIcon="cog"
+        rightIcon="account"
+        onLeftPress={settingsPressed}
+        onRightPress={profilePressed}
+      />
     </View>
   );
 }
@@ -12,6 +27,6 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 0,
   },
 });

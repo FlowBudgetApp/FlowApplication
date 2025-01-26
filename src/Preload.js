@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import Navigation from './Navigation';
+import Navigation from './Components/NavBar';
 import { PaperProvider } from 'react-native-paper';
 
 export default function Preload() {
