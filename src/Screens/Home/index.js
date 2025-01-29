@@ -15,8 +15,8 @@ export default function Home() {
     <View style={styles.container}>
       <Header
         title="Dashboard"
-        leftIcon="cog"
-        rightIcon="account"
+        leftIcon="account"
+        rightIcon="cog"
         onLeftPress={settingsPressed}
         onRightPress={profilePressed}
       />

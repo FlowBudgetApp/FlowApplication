@@ -15,10 +15,10 @@ export default function Accounts() {
     <View style={styles.container}>
       <Header
         title="Accounts"
-        leftIcon="cog"
-        rightIcon="account"
-        onLeftPress={settingsPressed}
-        onRightPress={profilePressed}
+        leftIcon="account"
+        rightIcon="cog"
+        onLeftPress={profilePressed}
+        onRightPress={settingsPressed}
       />
     </View>
   );

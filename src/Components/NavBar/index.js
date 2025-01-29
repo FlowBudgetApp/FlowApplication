@@ -29,7 +29,7 @@ const Navigation = () => { // Base function from the BottomNavigation api on nat
       onIndexChange={setIndex}
       renderScene={renderScene}
       barStyle={{ backgroundColor: '#ffffff' }}
-      activeColor="#007AFF"
+      activeColor="#005D5F"
       inactiveColor="#999999"
       shifting={false}
       labeled={true}

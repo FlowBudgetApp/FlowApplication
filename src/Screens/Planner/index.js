@@ -15,10 +15,10 @@ export default function Planner() {
     <View style={styles.container}>
       <Header
         title="Planner"
-        leftIcon="cog"
-        rightIcon="account"
-        onLeftPress={settingsPressed}
-        onRightPress={profilePressed}
+        leftIcon="account"
+        rightIcon="cog"
+        onLeftPress={profilePressed}
+        onRightPress={settingsPressed}
       />
     </View>
   );
