@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import * as React from 'react';
+import { View, StyleSheet, FlatList } from 'react-native';
 import Header from '../../Components/Header'
+import { Searchbar } from 'react-native-paper';
 
 export default function Transactions() {
   const settingsPressed = () => {
@@ -11,6 +12,8 @@ export default function Transactions() {
     // Add handling logic
   };
 
+  const [searchQuery, setSearchQuery] = React.useState('');
+
   return (
     <View style={styles.container}>
       <Header
@@ -19,6 +22,11 @@ export default function Transactions() {
         rightIcon="cog"
         onLeftPress={profilePressed}
         onRightPress={settingsPressed}
+      />
+      <Searchbar
+        placeholder="Search"
+        onChangeText={setSearchQuery}
+        value={searchQuery}
       />
     </View>
   );
