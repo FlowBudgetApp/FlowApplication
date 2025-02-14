@@ -4,6 +4,7 @@ import Navigation from './Components/NavBar';
 import { PaperProvider } from 'react-native-paper';
 
 export default function Preload() {
+  /*
   const [opacity] = useState(new Animated.Value(1));
   const [animationComplete, setAnimationComplete] = useState(false);//When the value changes it reruns this code
 
@@ -35,7 +36,7 @@ export default function Preload() {
       </View>
     );
   }
-
+  */
   return ( //RUN THIS AFTER THE ANIMATION IS COMPLETE
     <PaperProvider>
       <Navigation />
