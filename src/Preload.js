@@ -2,8 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
 import Navigation from './Components/NavBar';
 import { PaperProvider } from 'react-native-paper';
+import { initializeDatabase } from './Database/database'
 
 export default function Preload() {
+  useEffect(() => {
+    initializeDatabase();
+  }, [])
   /*
   const [opacity] = useState(new Animated.Value(1));
   const [animationComplete, setAnimationComplete] = useState(false);//When the value changes it reruns this code
