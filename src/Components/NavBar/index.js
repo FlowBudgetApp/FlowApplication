@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
-import { BottomNavigation } from 'react-native-paper'; //Library from the native-paper open source matrial
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { BottomNavigation } from 'react-native-paper';
 
-//Import our screens for connection
 import AccountsScreen from '../../Screens/Accounts';
 import HomeScreen from '../../Screens/Home';
 import PlannerScreen from '../../Screens/Planner';
 import TransactionsScreen from '../../Screens/Transactions';
+import NewAccountScreen from '../../Screens/Accounts/NewAccount';
 
-const Navigation = () => { // Base function from the BottomNavigation api on native-paper
+const Stack = createStackNavigator();
+
+const BottomTabNavigation = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: 'dashboard', title: 'Dashboard', focusedIcon: 'apps', unfocusedIcon: 'apps'}, //Home page
+    { key: 'dashboard', title: 'Dashboard', focusedIcon: 'apps', unfocusedIcon: 'apps' },
     { key: 'transactions', title: 'Transactions', focusedIcon: 'calculator', unfocusedIcon: 'calculator' },
-    { key: 'accounts', title: 'Accounts', focusedIcon: 'account',unfocusedIcon: 'account'}, //Account page
-    { key: 'planner', title: 'Planner', focusedIcon: 'map', unfocusedIcon: 'map' } //Planner Page
+    { key: 'accounts', title: 'Accounts', focusedIcon: 'account', unfocusedIcon: 'account' },
+    { key: 'planner', title: 'Planner', focusedIcon: 'map', unfocusedIcon: 'map' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
-    accounts: AccountsScreen,
     dashboard: HomeScreen,
+    transactions: TransactionsScreen,
+    accounts: () => <AccountsScreen navigation={navigation} />,
     planner: PlannerScreen,
-    transactions: TransactionsScreen
   });
 
   return (
@@ -37,4 +43,13 @@ const Navigation = () => { // Base function from the BottomNavigation api on nat
   );
 };
 
-export default Navigation;
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="BottomTabs">
+        <Stack.Screen name="BottomTabs" component={BottomTabNavigation} options={{ headerShown: false }} />
+        <Stack.Screen name="NewAccount" component={NewAccountScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
