@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
-export default function TransactionCard({payee, category, cost, date}) {
+export default function TransactionCard({ payee, category, cost, date, onPress }) {
     const ContentTitle = ({ children }) => (
         <Text variant="labelMedium" style={styles.contentTitle}>
             {children}
@@ -15,28 +15,31 @@ export default function TransactionCard({payee, category, cost, date}) {
     );
 
     return (
-        <Card style={styles.card} mode="elevated">
-            <View style={styles.titleRow}>
-                <Text variant="titleMedium" style={styles.titleText}>Banking Account #1</Text>
-            </View>
-            <Card.Content style={styles.content}>
-                <View style={styles.row}>
-                    <View style={styles.leftContent}>
-                        <ContentTitle>Payee</ContentTitle>
-                        <ContentText>{payee}</ContentText>
-                        <ContentTitle>Category</ContentTitle>
-                        <ContentText>{category}</ContentText>
-                    </View>
-
-                    <View style={styles.rightContent}>
-                        <ContentTitle>Cost</ContentTitle>
-                        <ContentText>${cost}</ContentText>
-                        <ContentTitle>Date</ContentTitle>
-                        <ContentText>{date}</ContentText>
-                    </View>
+        <Pressable onPress={onPress}>
+            <Card style={styles.card} mode="elevated">
+                <View style={styles.titleRow}>
+                    <Text variant="titleMedium" style={styles.titleText}>
+                        Banking Account #1
+                    </Text>
                 </View>
-            </Card.Content>
-        </Card>
+                <Card.Content style={styles.content}>
+                    <View style={styles.row}>
+                        <View style={styles.leftContent}>
+                            <ContentTitle>Payee</ContentTitle>
+                            <ContentText>{payee}</ContentText>
+                            <ContentTitle>Category</ContentTitle>
+                            <ContentText>{category}</ContentText>
+                        </View>
+                        <View style={styles.rightContent}>
+                            <ContentTitle>Cost</ContentTitle>
+                            <ContentText>${cost}</ContentText>
+                            <ContentTitle>Date</ContentTitle>
+                            <ContentText>{date}</ContentText>
+                        </View>
+                    </View>
+                </Card.Content>
+            </Card>
+        </Pressable>
     );
 }
 
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
     rightContent: {
         alignItems: 'flex-end',
     },
-    contentTitle:{
+    contentTitle: {
         color: '#3f4949',
         fontWeight: '500',
     },

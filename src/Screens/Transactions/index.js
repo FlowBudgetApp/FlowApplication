@@ -4,7 +4,7 @@ import Header from '../../Components/Header'
 import { Searchbar } from 'react-native-paper';
 import TransactionCard from '../../Components/TransactionCard';
 
-export default function Transactions() {
+export default function Transactions({navigation}) {
   const settingsPressed = () => {
     // Menu handling logic
   };
@@ -46,6 +46,7 @@ export default function Transactions() {
       category={item.category}
       cost={item.cost}
       date={item.date}
+      onPress={() => navigation.navigate('TransactionExtra',{item})}
     />
   );
 
@@ -65,7 +66,7 @@ export default function Transactions() {
       />
       <FlatList
         data={transactions}
-        renderItem={renderTransaction}
+        renderItem={({ item }) => renderTransaction({ item, navigation })}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
