@@ -1,5 +1,4 @@
 import * as SQLite from 'expo-sqlite';
-import * as FileSystem from 'expo-file-system';
 
 let db; // Database instance
 
@@ -7,10 +6,9 @@ let db; // Database instance
 async function initializeDatabase() {
     try {
         db = await SQLite.openDatabaseAsync('budgetApp.db');
-        //console.log('Database initialized:', db);
-
-        const dbPath = FileSystem.documentDirectory + 'SQLite/budgetApp.db';
-        console.log('Database path:', dbPath);
+        
+        // Enable foreign key support
+        await db.execAsync('PRAGMA foreign_keys = ON;');
 
         // Create tables if they don't exist
         await db.execAsync(`
@@ -25,6 +23,8 @@ async function initializeDatabase() {
                 user_id INTEGER NOT NULL,
                 account_name TEXT NOT NULL,
                 balance REAL NOT NULL,
+                plaid_access_token TEXT,
+                plaid_item_id TEXT,
                 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
             );
 
@@ -46,9 +46,60 @@ async function initializeDatabase() {
                 FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE CASCADE
             );
         `);
-        console.log('Tables created successfully.');
+
+        // Create indexes for better performance
+        await db.execAsync(`
+            CREATE INDEX IF NOT EXISTS idx_accounts_user ON accounts(user_id);
+            CREATE INDEX IF NOT EXISTS idx_transactions_account ON transactions(account_id);
+        `);
+
+        console.log('Database initialized successfully');
     } catch (error) {
         console.error('Database initialization error:', error);
+        throw error;
+    }
+}
+
+// Function to run INSERT, UPDATE, or DELETE queries
+async function runAsync(sql, params = []) {
+    try {
+        const result = await db.runAsync(sql, ...params);
+        return { lastInsertRowId: result.lastInsertRowId, changes: result.changes };
+    } catch (error) {
+        console.error('Database run error:', error);
+        throw error;
+    }
+}
+
+// Function to fetch a single row
+async function getAsync(sql, params = []) {
+    try {
+        const result = await db.getFirstAsync(sql, ...params);
+        return result;
+    } catch (error) {
+        console.error('Database get error:', error);
+        throw error;
+    }
+}
+
+// Function to fetch multiple rows
+async function getAllAsync(sql, params = []) {
+    try {
+        const result = await db.getAllAsync(sql, ...params);
+        return result;
+    } catch (error) {
+        console.error('Database getAll error:', error);
+        throw error;
+    }
+}
+
+// Function to execute raw SQL commands
+async function execAsync(sql) {
+    try {
+        await db.execAsync(sql);
+    } catch (error) {
+        console.error('Database exec error:', error);
+        throw error;
     }
 }
 
@@ -60,4 +111,11 @@ function getDatabase() {
     return db;
 }
 
-export { initializeDatabase, getDatabase };
+export { 
+    initializeDatabase, 
+    getDatabase,
+    runAsync,
+    getAsync,
+    getAllAsync,
+    execAsync
+};
