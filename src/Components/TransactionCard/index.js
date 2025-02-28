@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
-export default function TransactionCard({ payee, category, cost, date, onPress }) {
+export default function TransactionCard(data) {
     const ContentTitle = ({ children }) => (
         <Text variant="labelMedium" style={styles.contentTitle}>
             {children}
@@ -15,7 +15,7 @@ export default function TransactionCard({ payee, category, cost, date, onPress }
     );
 
     return (
-        <Pressable onPress={onPress}>
+        <Pressable onPress={data.onPress}>
             <Card style={styles.card} mode="elevated">
                 <View style={styles.titleRow}>
                     <Text variant="titleMedium" style={styles.titleText}>
@@ -25,16 +25,16 @@ export default function TransactionCard({ payee, category, cost, date, onPress }
                 <Card.Content style={styles.content}>
                     <View style={styles.row}>
                         <View style={styles.leftContent}>
-                            <ContentTitle>Payee</ContentTitle>
-                            <ContentText>{payee}</ContentText>
+                            <ContentTitle></ContentTitle>
+                            <ContentText>{data.payee}</ContentText>
                             <ContentTitle>Category</ContentTitle>
-                            <ContentText>{category}</ContentText>
+                            <ContentText>{data.category}</ContentText>
                         </View>
                         <View style={styles.rightContent}>
                             <ContentTitle>Cost</ContentTitle>
-                            <ContentText>${cost}</ContentText>
+                            <ContentText>${data.cost}</ContentText>
                             <ContentTitle>Date</ContentTitle>
-                            <ContentText>{date}</ContentText>
+                            <ContentText>{data.date}</ContentText>
                         </View>
                     </View>
                 </Card.Content>
