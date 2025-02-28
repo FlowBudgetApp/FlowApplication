@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
 import Header from '../../Components/Header'
 
 export default function Home() {
@@ -11,6 +12,10 @@ export default function Home() {
     // Add handling logic
   };
 
+  const addAccountPressed = () => {// BUTTON FUNCTION RIGHT HERE
+    console.log('KOBE');
+};
+
   return (
     <View style={styles.container}>
       <Header
@@ -20,6 +25,9 @@ export default function Home() {
         onLeftPress={settingsPressed}
         onRightPress={profilePressed}
       />
+      <Button icon="camera" mode="contained" onPress={addAccountPressed}>
+        Press me
+      </Button>
     </View>
   );
 }
