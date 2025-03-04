@@ -1,22 +1,45 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import Header from '../../Components/Header'
-import { Divider, Button, Text, Card, } from 'react-native-paper';
+import { Divider, Button, Text, Card, IconButton } from 'react-native-paper';
 import CategoryItem from '../../Components/PlannerComp';
 
 const info = [
   {
-    title: 'Vacation', categories: [
+    title: 'Vacation',
+    categories: [
       { name: "Airplane Ticket", totalCost: 900, currentAmount: 90 },
       { name: "Clothes", totalCost: 500, currentAmount: 125 }
     ]
   },
   {
-    title: 'New Car', categories: [
-      { name: "DownPayment", totalCost: 4000, currentAmount: 1234 },
-      { name: "Attachments", totalCost: 500, currentAmount: 100 }
+    title: 'New Car',
+    categories: [
+      { name: "Down Payment", totalCost: 2000, currentAmount: 500 },
+      { name: "Insurance", totalCost: 1000, currentAmount: 250 }
     ]
   },
+  {
+    title: 'Home Renovation',
+    categories: [
+      { name: "Kitchen", totalCost: 5000, currentAmount: 1500 },
+      { name: "Bathroom", totalCost: 3000, currentAmount: 800 }
+    ]
+  },
+  {
+    title: 'Gaming Setup',
+    categories: [
+      { name: "PC", totalCost: 2500, currentAmount: 1000 },
+      { name: "Monitor", totalCost: 800, currentAmount: 300 }
+    ]
+  },
+  {
+    title: 'Fitness Equipment',
+    categories: [
+      { name: "Treadmill", totalCost: 1200, currentAmount: 400 },
+      { name: "Weights", totalCost: 600, currentAmount: 200 }
+    ]
+  }
 ];
 const sortedInfo = [...info].sort((a, b) => a.title.localeCompare(b.title));
 
@@ -74,6 +97,7 @@ export default function Planner({ navigation }) {
         keyExtractor={(item) => item.title}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
+      <IconButton size={40} icon="plus" mode="contained" style={styles.floatingButton} onPress={() => console.log("Button Pressed")}></IconButton>
     </View>
   );
 }
@@ -106,4 +130,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     elevation: 3, // Shadow effect
   },
+  floatingButton: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    borderRadius: 50
+  }
 });

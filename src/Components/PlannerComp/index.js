@@ -8,7 +8,7 @@ const CategoryItem = ({ category }) => (
       <Text variant='titleSmall'>{category.name}</Text>
       <Text>${category.totalCost}</Text>
     </View>
-    <ProgressBar progress={category.currentAmount / category.totalCost} color={MD3Colors.error50} />
+    <ProgressBar style={{borderRadius: 50}} progress={category.currentAmount / category.totalCost} color={MD3Colors.error50} />
   </View>
 );
 
