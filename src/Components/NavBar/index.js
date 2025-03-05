@@ -9,6 +9,7 @@ import AccountsScreen from '../../Screens/Accounts';
 import HomeScreen from '../../Screens/Home';
 import PlannerScreen from '../../Screens/Planner';
 import TransactionsScreen from '../../Screens/Transactions';
+import TransactionsExtra from '../../Screens/Transactions/TransactionInspect'
 import NewAccountScreen from '../../Screens/Accounts/NewAccount';
 
 const Stack = createStackNavigator();
@@ -24,7 +25,7 @@ const BottomTabNavigation = ({ navigation }) => {
 
   const renderScene = BottomNavigation.SceneMap({
     dashboard: HomeScreen,
-    transactions: TransactionsScreen,
+    transactions: () => <TransactionsScreen navigation={navigation} />,
     accounts: () => <AccountsScreen navigation={navigation} />,
     planner: PlannerScreen,
   });
@@ -48,6 +49,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="BottomTabs">
         <Stack.Screen name="BottomTabs" component={BottomTabNavigation} options={{ headerShown: false }} />
+        <Stack.Screen name="TransactionExtra" component={TransactionsExtra} />
         <Stack.Screen name="NewAccount" component={NewAccountScreen} />
       </Stack.Navigator>
     </NavigationContainer>
