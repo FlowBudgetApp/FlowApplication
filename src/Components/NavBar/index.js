@@ -8,6 +8,8 @@ import { BottomNavigation } from 'react-native-paper';
 import AccountsScreen from '../../Screens/Accounts';
 import HomeScreen from '../../Screens/Home';
 import PlannerScreen from '../../Screens/Planner';
+import PlannerPlanScreen from '../../Screens/Planner/PlanScreen';
+import PlannerCatScreen from '../../Screens/Planner/CatScreen';
 import TransactionsScreen from '../../Screens/Transactions';
 import TransactionsExtra from '../../Screens/Transactions/TransactionInspect'
 import NewAccountScreen from '../../Screens/Accounts/NewAccount';
@@ -27,7 +29,7 @@ const BottomTabNavigation = ({ navigation }) => {
     dashboard: HomeScreen,
     transactions: () => <TransactionsScreen navigation={navigation} />,
     accounts: () => <AccountsScreen navigation={navigation} />,
-    planner: PlannerScreen,
+    planner: () => <PlannerScreen navigation={navigation} />,
   });
 
   return (
@@ -51,6 +53,8 @@ export default function App() {
         <Stack.Screen name="BottomTabs" component={BottomTabNavigation} options={{ headerShown: false }} />
         <Stack.Screen name="TransactionExtra" component={TransactionsExtra} />
         <Stack.Screen name="NewAccount" component={NewAccountScreen} />
+        <Stack.Screen name="PlannerCatScreen" component={PlannerCatScreen} />
+        <Stack.Screen name="PlannerPlanScreen" component={PlannerPlanScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
