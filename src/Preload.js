@@ -3,8 +3,7 @@ import { StyleSheet, View, Animated } from 'react-native';
 import Navigation from './Components/NavBar';
 import { PaperProvider } from 'react-native-paper';
 import { initializeDatabase } from './Database/database';
-import { UserService } from './Services/databaseService';
-import { AccountService } from './Services/databaseService';
+import { UserService, AccountService, BudgetService, TransactionService } from './Services/databaseService';
 
 export default function Preload() {
   const [loading, setLoading] = useState(true);
@@ -14,12 +13,10 @@ export default function Preload() {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        // Initialize the database
         await initializeDatabase();
-        
         console.log('Database initialized');
 
-        // Check if the test user already exists
+        // Create or fetch the test user
         const testEmail = `testuser${Math.floor(Math.random() * 1000)}@email.com`;
         let userId;
 
@@ -28,7 +25,6 @@ export default function Preload() {
           console.log('Test user already exists, using existing user ID:', existingUser.id);
           userId = existingUser.id;
         } else {
-          // Create a new test user if it doesn't exist
           userId = await UserService.createUser('Test User', testEmail);
           console.log('New user created with ID:', userId);
         }
@@ -37,22 +33,46 @@ export default function Preload() {
         const user = await UserService.getUser(userId);
         console.log('Fetched user:', user);
 
+        // Link a test account
+        await AccountService.linkAccount(userId, {
+          name: 'Checking Account',
+          balance: 1000.00,
+          accessToken: 'plaid_access_token',
+          itemId: 'plaid_item_id'
+        });
+
         // Fetch accounts for the user
         const accounts = await AccountService.getAccounts(userId);
         console.log('User accounts:', accounts);
+
+        // Create a test budget
+        await BudgetService.createBudget(userId, 'Groceries', 500.00);
+
+        // Fetch budgets for the user
+        const budgets = await BudgetService.getBudgets(userId);
+        console.log('User budgets:', budgets);
+
+        // Add a test transaction
+        await TransactionService.addTransaction({
+          accountId: accounts[0].id,
+          amount: -50.00,
+          description: 'Grocery Store',
+          category: 'Food',
+          date: '2023-10-15'
+        });
+
+        // Fetch transactions for the account
+        const transactions = await TransactionService.getTransactions(accounts[0].id);
+        console.log('Account transactions:', transactions);
       } catch (error) {
         console.error('Initialization error:', error);
       } finally {
         setLoading(false);
       }
-      
     };
-    
-    
 
     initializeApp();
   }, []);
-  
 
   useEffect(() => {
     Animated.sequence([
