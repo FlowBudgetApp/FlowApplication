@@ -5,12 +5,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { BottomNavigation } from 'react-native-paper';
 
-//Import our screens for connection
 import AccountsScreen from '../../Screens/Accounts';
 import HomeScreen from '../../Screens/Home';
 import PlannerScreen from '../../Screens/Planner';
 import TransactionsScreen from '../../Screens/Transactions';
 import TransactionsExtra from '../../Screens/Transactions/TransactionInspect'
+import NewAccountScreen from '../../Screens/Accounts/NewAccount';
 
 const Stack = createStackNavigator();
 
@@ -26,7 +26,7 @@ const BottomTabNavigation = ({ navigation }) => {
   const renderScene = BottomNavigation.SceneMap({
     dashboard: HomeScreen,
     transactions: () => <TransactionsScreen navigation={navigation} />,
-    accounts: AccountsScreen,
+    accounts: () => <AccountsScreen navigation={navigation} />,
     planner: PlannerScreen,
   });
 
@@ -50,6 +50,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="BottomTabs">
         <Stack.Screen name="BottomTabs" component={BottomTabNavigation} options={{ headerShown: false }} />
         <Stack.Screen name="TransactionExtra" component={TransactionsExtra} />
+        <Stack.Screen name="NewAccount" component={NewAccountScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
