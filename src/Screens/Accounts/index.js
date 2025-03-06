@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, ScrollView, Button } from 'react-native';
+import React, { useState } from "react";
+import { FlatList, View, StyleSheet } from "react-native";
+import { Text, Card, ProgressBar, IconButton, MD3Colors } from "react-native-paper";
 import Header from '../../Components/Header';
 
 export default function Accounts({ navigation }) {
   const [accounts, setAccounts] = useState([
-    { name: 'Account 1', balance: 0 }
+    { name: "Account 1", balance: 500, type: "Debit" },
+    { name: "Account 2", balance: 1000, type: "Credit" },
+    { name: "Account 3", balance: 750, type: "Debit" },
   ]);
 
   const settingsPressed = () => {
@@ -19,12 +22,56 @@ export default function Accounts({ navigation }) {
     setAccounts([...accounts, newAccount]);
   };
 
-  const calculateTotalNetWorth = () => {
-    return accounts.reduce((total, account) => total + account.balance, 0);
+  // Group accounts by type
+  const groupedAccounts = accounts.reduce((acc, account) => {
+    if (!acc[account.type]) acc[account.type] = [];
+    acc[account.type].push(account);
+    return acc;
+  }, {});
+
+  // Calculate total balance
+  const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
+
+  const data = [
+    { type: "NetWorth", totalBalance, groupedAccounts }, // Net worth block
+    ...Object.keys(groupedAccounts).map((type) => ({ type, accounts: groupedAccounts[type] })), // Account types
+  ];
+
+  const renderItem = ({ item }) => {
+    if (item.type === "NetWorth") { //NET WORTH HERE
+      return (
+        <View style={{marginHorizontal: 20}}>
+          <Text variant="headlineSmall">Net Worth</Text>
+          <Card>
+            <Card.Content style={styles.row}>
+              <Text variant="titleMedium">Total</Text>
+              <Text variant="titleMedium">${item.totalBalance} </Text>
+            </Card.Content>
+          </Card>
+        </View>
+      );
+    }
+    return ( // ACCOUNT WORK
+      <View style={{ marginTop: 20, marginHorizontal: 20 }}>
+        <Text variant="headlineSmall">{item.type}</Text>
+        <FlatList
+          data={item.accounts}
+          keyExtractor={(account) => account.name}
+          renderItem={({ item: account }) => (
+            <Card style={{ marginTop: 10 }}>
+              <Card.Content style={styles.row}>
+                <Text variant="titleMedium">{account.name}</Text>
+                <Text variant="titleMedium">${account.balance}</Text>
+              </Card.Content>
+            </Card>
+          )}
+        />
+      </View>
+    );
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{flex: 1}}>
       <Header
         title="Accounts"
         leftIcon="account"
@@ -32,81 +79,38 @@ export default function Accounts({ navigation }) {
         onLeftPress={profilePressed}
         onRightPress={settingsPressed}
       />
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Net Worth</Text>
-          <Text style={styles.totalNetWorth}>
-            Total Net Worth: ${calculateTotalNetWorth().toFixed(2)}
-          </Text>
-          {accounts.map((account, index) => (
-            <View key={index} style={styles.accountCard}>
-              <Text style={styles.accountName}>{account.name}</Text>
-              <Text style={styles.accountBalance}>
-                ${account.balance.toFixed(2)}
-              </Text>
-            </View>
-          ))}
-        </View>
-        <Button
-          title="Add New Account"
-          onPress={() => navigation.navigate('NewAccount', { addAccount })}
-        />
-      </ScrollView>
+      <FlatList
+        data={data}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={renderItem}
+      />
+      <IconButton style={styles.floatingButton}
+        icon="plus"
+        iconColor={MD3Colors.error50}
+        size={20}
+        onPress={() => navigation.navigate('NewAccount', { addAccount })}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  content: {
-    padding: 16,
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  totalNetWorth: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#4caf50',
-    marginBottom: 16,
-  },
-  accountCard: {
+  card: {
+    marginHorizontal: 32,
+    marginVertical: 16,
+    marginBottom: 0,
     backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    elevation: 3, // Shadow effect
   },
-  accountName: {
-    fontSize: 16,
-    fontWeight: 'bold',
+  floatingButton: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    borderRadius: 50
   },
-  accountBalance: {
-    fontSize: 16,
-    color: '#888',
-  },
-  bottomNav: {
+  row: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 16,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  navItem: {
-    fontSize: 16,
-    color: '#888',
-  },
-});
+})
