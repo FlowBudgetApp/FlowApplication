@@ -1,8 +1,13 @@
 import * as React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
+import { useTheme } from "../../Components/Theming";
 
 export default function TransactionCard(data) {
+    const { theme } = useTheme();
+    console.log('Current theme:', theme);
+
+
     const ContentTitle = ({ children }) => (
         <Text variant="labelMedium" style={styles.contentTitle}>
             {children}
@@ -16,9 +21,9 @@ export default function TransactionCard(data) {
 
     return (
         <Pressable onPress={data.onPress}>
-            <Card style={styles.card} mode="elevated">
-                <View style={styles.titleRow}>
-                    <Text variant="titleMedium" style={styles.titleText}>
+            <Card style={[styles.card, {backgroundColor: theme.colors.surfaceVariant}]} mode="elevated">
+                <View style={[styles.titleRow, {backgroundColor: theme.colors.secondary}]}>
+                    <Text variant="titleMedium" style={[styles.titleText, {color: theme.colors.onSecondary,}]}>
                         Banking Account #1
                     </Text>
                 </View>
@@ -47,11 +52,9 @@ const styles = StyleSheet.create({
     card: {
         marginHorizontal: 16,
         marginVertical: 8,
-        backgroundColor: '#f4fbfa',
         overflow: 'hidden',
     },
     titleRow: {
-        backgroundColor: '#4a6363',
         padding: 8,
         width: '100%',
     },

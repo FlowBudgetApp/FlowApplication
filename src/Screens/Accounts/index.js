@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 import { Text, Card, ProgressBar, IconButton, MD3Colors } from "react-native-paper";
 import Header from '../../Components/Header';
+import { useTheme } from "../../Components/Theming";
 
 export default function Accounts({ navigation }) {
+  const theme = useTheme();
+
   const [accounts, setAccounts] = useState([
     { name: "Account 1", balance: 500, type: "Debit" },
     { name: "Account 2", balance: 1000, type: "Credit" },

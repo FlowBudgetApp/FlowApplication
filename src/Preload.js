@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
 import Navigation from './Components/NavBar';
-import { PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { initializeDatabase } from './Database/database';
 import { UserService, AccountService, BudgetService, TransactionService } from './Services/databaseService';
+import { ThemeProvider, useTheme } from './Components/Theming';
 
 export default function Preload() {
   const [loading, setLoading] = useState(true);
@@ -104,11 +105,21 @@ export default function Preload() {
   }
 
   return (
-    <PaperProvider>
+    <ThemeProvider>
+      <ThemedApp />
+    </ThemeProvider>
+  );
+}
+
+const ThemedApp = () => {
+  const { theme } = useTheme();
+
+  return (
+    <PaperProvider theme={theme}>
       <Navigation />
     </PaperProvider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
