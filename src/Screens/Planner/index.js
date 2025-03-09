@@ -3,6 +3,7 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import Header from '../../Components/Header'
 import { Divider, Button, Text, Card, IconButton } from 'react-native-paper';
 import CategoryItem from '../../Components/PlannerComp';
+import { useTheme } from "../../Components/Theming";
 
 const info = [
   {
@@ -44,6 +45,8 @@ const info = [
 const sortedInfo = [...info].sort((a, b) => a.title.localeCompare(b.title));
 
 export default function Planner({ navigation }) {
+  const theme = useTheme();
+
   const settingsPressed = () => {
     // Menu handling logic
   };
@@ -81,8 +84,8 @@ export default function Planner({ navigation }) {
     <View style={styles.container}>
       <Header
         title="Planner"
-        leftIcon="account"
-        rightIcon="cog"
+        leftIcon="cog"
+        rightIcon="plus"
         onLeftPress={profilePressed}
         onRightPress={settingsPressed}
       />
@@ -97,7 +100,6 @@ export default function Planner({ navigation }) {
         keyExtractor={(item) => item.title}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
-      <IconButton size={40} icon="plus" mode="contained" style={styles.floatingButton} onPress={() => console.log("Button Pressed")}></IconButton>
     </View>
   );
 }

@@ -1,12 +1,12 @@
 import React, { createContext, useState, useContext } from 'react';
 import { MD3LightTheme, MD3DarkTheme } from 'react-native-paper';
 
-// Function to Generate Theme Based on Primary & Secondary Colors
+//Themee Creator
 const generateTheme = (primaryColor, secondaryColor, isDark = false) => {
   return {
-    ...(!isDark ? MD3LightTheme : MD3DarkTheme),
+    ...(!isDark ? MD3LightTheme : MD3DarkTheme), //Properity spread for all properties
     colors: {
-      ...(!isDark ? MD3LightTheme.colors : MD3DarkTheme.colors),
+      ...(!isDark ? MD3LightTheme.colors : MD3DarkTheme.colors), // Color Prop spread
       primary: primaryColor,
       secondary: secondaryColor,
       background: isDark ? '#121212' : '#ffffff',
@@ -15,7 +15,7 @@ const generateTheme = (primaryColor, secondaryColor, isDark = false) => {
   };
 };
 
-// Create Context for Theming
+//Theming Context
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {

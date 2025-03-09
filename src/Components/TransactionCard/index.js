@@ -5,9 +5,7 @@ import { useTheme } from "../../Components/Theming";
 
 export default function TransactionCard(data) {
     const { theme } = useTheme();
-    console.log('Current theme:', theme);
-
-
+    
     const ContentTitle = ({ children }) => (
         <Text variant="labelMedium" style={styles.contentTitle}>
             {children}
@@ -30,7 +28,7 @@ export default function TransactionCard(data) {
                 <Card.Content style={styles.content}>
                     <View style={styles.row}>
                         <View style={styles.leftContent}>
-                            <ContentTitle></ContentTitle>
+                            <ContentTitle>Payee</ContentTitle>
                             <ContentText>{data.payee}</ContentText>
                             <ContentTitle>Category</ContentTitle>
                             <ContentText>{data.category}</ContentText>
