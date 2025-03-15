@@ -5,14 +5,23 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { BottomNavigation } from 'react-native-paper';
 
-import AccountsScreen from '../../Screens/Accounts';
 import HomeScreen from '../../Screens/Home';
+import TransactionsScreen from '../../Screens/Transactions';
+import TransactionsExtra from '../../Screens/Transactions/TransactionInspect'
+import AccountsScreen from '../../Screens/Accounts';
+import NewAccountScreen from '../../Screens/Accounts/NewAccount';
 import PlannerScreen from '../../Screens/Planner';
 import PlannerPlanScreen from '../../Screens/Planner/PlanScreen';
 import PlannerCatScreen from '../../Screens/Planner/CatScreen';
-import TransactionsScreen from '../../Screens/Transactions';
-import TransactionsExtra from '../../Screens/Transactions/TransactionInspect'
-import NewAccountScreen from '../../Screens/Accounts/NewAccount';
+import SettingsScreen from '../../Screens/Settings'
+
+const subScreens = { //ADD THE NEW SCREENS HERE PLEASE
+  "TransactionExtra": TransactionsExtra,
+  "NewAccount": NewAccountScreen,
+  "PlannerCatScreen": PlannerCatScreen,
+  "PlannerPlanScreen": PlannerPlanScreen,
+  "SettingsScreen": SettingsScreen
+}
 
 const Stack = createStackNavigator();
 
@@ -26,7 +35,7 @@ const BottomTabNavigation = ({ navigation }) => {
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
-    dashboard: HomeScreen,
+    dashboard: () => <HomeScreen navigation={navigation} />,
     transactions: () => <TransactionsScreen navigation={navigation} />,
     accounts: () => <AccountsScreen navigation={navigation} />,
     planner: () => <PlannerScreen navigation={navigation} />,
@@ -51,10 +60,13 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="BottomTabs">
         <Stack.Screen name="BottomTabs" component={BottomTabNavigation} options={{ headerShown: false }} />
-        <Stack.Screen name="TransactionExtra" component={TransactionsExtra} />
-        <Stack.Screen name="NewAccount" component={NewAccountScreen} />
-        <Stack.Screen name="PlannerCatScreen" component={PlannerCatScreen} />
-        <Stack.Screen name="PlannerPlanScreen" component={PlannerPlanScreen} />
+        {Object.entries(subScreens).map(([name, component]) => ( // Any Extra Screens
+          <Stack.Screen 
+            key={name}
+            name={name} 
+            component={component} 
+          />
+        ))}
       </Stack.Navigator>
     </NavigationContainer>
   );

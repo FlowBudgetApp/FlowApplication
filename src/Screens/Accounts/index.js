@@ -31,6 +31,7 @@ export default function Accounts({ navigation }) {
     acc[account.type].push(account);
     return acc;
   }, {});
+  
 
   // Calculate total balance
   const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
@@ -54,10 +55,15 @@ export default function Accounts({ navigation }) {
         </View>
       );
     }
+    const totalAmount = item.accounts.reduce((sum, account) => sum + account.balance, 0)
     return ( // ACCOUNT WORK
       <View style={{ marginTop: 20, marginHorizontal: 20 }}>
-        <Text variant="headlineSmall">{item.type}</Text>
+        <View style={styles.row}>
+          <Text variant="headlineSmall">{item.type}</Text>
+          <Text variant="headlineSmall">${totalAmount}</Text>
+        </View>
         <FlatList
+
           data={item.accounts}
           keyExtractor={(account) => account.name}
           renderItem={({ item: account }) => (
@@ -73,25 +79,19 @@ export default function Accounts({ navigation }) {
     );
   };
 
-  return (
+  return ( // PROGRAM START
     <View style={{flex: 1}}>
       <Header
         title="Accounts"
-        leftIcon="account"
-        rightIcon="cog"
-        onLeftPress={profilePressed}
-        onRightPress={settingsPressed}
+        leftIcon="cog"
+        rightIcon="plus"
+        onLeftPress={() => navigation.navigate('SettingsScreen', {})}
+        onRightPress={() => navigation.navigate('NewAccount', { addAccount})}
       />
       <FlatList
         data={data}
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
-      />
-      <IconButton style={styles.floatingButton}
-        icon="plus"
-        iconColor={MD3Colors.error50}
-        size={20}
-        onPress={() => navigation.navigate('NewAccount', { addAccount })}
       />
     </View>
   );

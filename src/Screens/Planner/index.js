@@ -51,10 +51,6 @@ export default function Planner({ navigation }) {
     // Menu handling logic
   };
 
-  const profilePressed = () => {
-    // Add handling logic
-  };
-
   const ButtonText = (data) => (
     <Button onPress={() => navigation.navigate(data.pageName)}>
       {data.text}
@@ -71,7 +67,7 @@ export default function Planner({ navigation }) {
             <Text variant="titleMedium">{data.title}</Text>
             <Text>${totalCost}</Text>
           </View>
-          <Text style={{fontSize: 8}} variant="labelSmall">in the last 30 days</Text>
+          <Text style={{fontSize: 8, marginBottom: 5}} variant="labelSmall">in the last 30 days</Text>
           {data.categories.map((category, index) => (
             <CategoryItem key={index} category={category} />
           ))}
@@ -86,7 +82,7 @@ export default function Planner({ navigation }) {
         title="Planner"
         leftIcon="cog"
         rightIcon="plus"
-        onLeftPress={profilePressed}
+        onLeftPress={() => navigation.navigate('SettingsScreen', {})}
         onRightPress={settingsPressed}
       />
       <View style={styles.row}>

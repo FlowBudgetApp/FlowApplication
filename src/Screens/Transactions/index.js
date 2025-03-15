@@ -5,11 +5,7 @@ import { Searchbar } from 'react-native-paper';
 import TransactionCard from '../../Components/TransactionCard';
 
 export default function Transactions({navigation}) {
-  const settingsPressed = () => {
-    // Menu handling logic
-  };
-
-  const profilePressed = () => {
+  const filterTransactions = () => {
     // Add handling logic
   };
 
@@ -54,10 +50,10 @@ export default function Transactions({navigation}) {
     <View style={styles.container}>
       <Header
         title="Transactions"
-        leftIcon="account"
-        rightIcon="cog"
-        onLeftPress={profilePressed}
-        onRightPress={settingsPressed}
+        leftIcon="cog"
+        rightIcon="menu"
+        onLeftPress={() => navigation.navigate('SettingsScreen', {})}
+        onRightPress={filterTransactions}
       />
       <Searchbar style={styles.searchBar}
         placeholder="Search"
