@@ -3,6 +3,7 @@ import { FlatList, View, StyleSheet } from "react-native";
 import { Text, Card, ProgressBar, IconButton, MD3Colors } from "react-native-paper";
 import Header from '../../Components/Header';
 import { useTheme } from "../../Components/Theming";
+import { Pressable } from "react-native";
 
 export default function Accounts({ navigation }) {
   const theme = useTheme();
@@ -12,14 +13,6 @@ export default function Accounts({ navigation }) {
     { name: "Account 2", balance: 1000, type: "Credit" },
     { name: "Account 3", balance: 750, type: "Debit" },
   ]);
-
-  const settingsPressed = () => {
-    // Menu handling logic
-  };
-
-  const profilePressed = () => {
-    // Add handling logic
-  };
 
   const addAccount = (newAccount) => {
     setAccounts([...accounts, newAccount]);
@@ -31,7 +24,7 @@ export default function Accounts({ navigation }) {
     acc[account.type].push(account);
     return acc;
   }, {});
-  
+
 
   // Calculate total balance
   const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
@@ -44,7 +37,7 @@ export default function Accounts({ navigation }) {
   const renderItem = ({ item }) => {
     if (item.type === "NetWorth") { //NET WORTH HERE
       return (
-        <View style={{marginHorizontal: 20}}>
+        <View style={{ marginHorizontal: 20 }}>
           <Text variant="headlineSmall">Net Worth</Text>
           <Card>
             <Card.Content style={styles.row}>
@@ -63,16 +56,22 @@ export default function Accounts({ navigation }) {
           <Text variant="headlineSmall">${totalAmount}</Text>
         </View>
         <FlatList
-
           data={item.accounts}
           keyExtractor={(account) => account.name}
           renderItem={({ item: account }) => (
-            <Card style={{ marginTop: 10 }}>
-              <Card.Content style={styles.row}>
-                <Text variant="titleMedium">{account.name}</Text>
-                <Text variant="titleMedium">${account.balance}</Text>
-              </Card.Content>
-            </Card>
+            <Pressable onPress={() => navigation.navigate('ViewAccount', {
+              accountData: {
+                name: account.name,
+                balance: account.balance,
+              }
+            })}>
+              <Card style={{ marginTop: 10 }}>
+                <Card.Content style={styles.row}>
+                  <Text variant="titleMedium">{account.name}</Text>
+                  <Text variant="titleMedium">${account.balance}</Text>
+                </Card.Content>
+              </Card>
+            </Pressable>
           )}
         />
       </View>
@@ -80,13 +79,13 @@ export default function Accounts({ navigation }) {
   };
 
   return ( // PROGRAM START
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Header
         title="Accounts"
         leftIcon="cog"
         rightIcon="plus"
         onLeftPress={() => navigation.navigate('SettingsScreen', {})}
-        onRightPress={() => navigation.navigate('NewAccount', { addAccount})}
+        onRightPress={() => navigation.navigate('NewAccount', { addAccount })}
       />
       <FlatList
         data={data}
