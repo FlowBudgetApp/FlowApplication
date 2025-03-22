@@ -1,11 +1,11 @@
-import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import Header from '../../Components/Header'
-import { Divider, Button, Text, Card, IconButton } from 'react-native-paper';
+import { Divider, Button, Text, Card, SegmentedButtons } from 'react-native-paper';
 import CategoryItem from '../../Components/PlannerComp';
 import { useTheme } from "../../Components/Theming";
 
-const info = [
+const Planinfo = [
   {
     title: 'Vacation',
     categories: [
@@ -42,22 +42,70 @@ const info = [
     ]
   }
 ];
-const sortedInfo = [...info].sort((a, b) => a.title.localeCompare(b.title));
+const sortedPlan = [...Planinfo].sort((a, b) => a.title.localeCompare(b.title));
+
+const CatRankings = {
+  'Bills': 0,
+  'Streaming Services': 1
+}
+const CatInfo = [
+  {
+    name: 'Water Bill',
+    type: 'Bills',
+    amount: { totalCost: 2000, currentAmount: 523 }
+  },
+  {
+    name: 'Electricity Bill',
+    type: 'Bills',
+    amount: { totalCost: 1800, currentAmount: 412 }
+  },
+  {
+    name: 'Gas Bill',
+    type: 'Bills',
+    amount: { totalCost: 1200, currentAmount: 289 }
+  },
+  {
+    name: 'Internet Bill',
+    type: 'Bills',
+    amount: { totalCost: 960, currentAmount: 80 }
+  },
+  {
+    name: 'Netflix',
+    type: 'Streaming Services',
+    amount: { totalCost: 40, currentAmount: 23 }
+  },
+  {
+    name: 'Disney+',
+    type: 'Streaming Services',
+    amount: { totalCost: 35, currentAmount: 10 }
+  },
+  {
+    name: 'Hulu',
+    type: 'Streaming Services',
+    amount: { totalCost: 30, currentAmount: 15 }
+  }
+]
+// Group the items by type
+const groupedByType = {};
+for (const item of CatInfo) {
+  const type = item.type;
+  if (!groupedByType[type]) {
+    groupedByType[type] = [];
+  }
+
+  groupedByType[type].push(item);
+}
+const listOfLists = Object.entries(groupedByType).map(([type, items]) => ({
+  type,
+  items
+}));
 
 export default function Planner({ navigation }) {
-  const theme = useTheme();
+  const { theme } = useTheme();
+  const [activeTab, setActiveTab] = useState('plans'); // Default to Plans tab
+  const [value, setValue] = React.useState('0');
 
-  const settingsPressed = () => {
-    // Menu handling logic
-  };
-
-  const ButtonText = (data) => (
-    <Button onPress={() => navigation.navigate(data.pageName)}>
-      {data.text}
-    </Button>
-  );
-
-
+  //PLANNER SECTION
   const PlannerCard = ({ data }) => {
     const totalCost = data.categories.reduce((sum, cat) => sum + cat.totalCost, 0);
     return (
@@ -67,13 +115,85 @@ export default function Planner({ navigation }) {
             <Text variant="titleMedium">{data.title}</Text>
             <Text>${totalCost}</Text>
           </View>
-          <Text style={{fontSize: 8, marginBottom: 5}} variant="labelSmall">in the last 30 days</Text>
+          <Text style={{ fontSize: 8, marginBottom: 5 }} variant="labelSmall">in the last 30 days</Text>
           {data.categories.map((category, index) => (
             <CategoryItem key={index} category={category} />
           ))}
         </Card.Content>
       </Card>
     );
+  };
+
+  //CATEGORIES SECTION
+  const CategoryTypeCard = ({ data }) => {
+    // Calculate the total cost and current amount for all items in this category type
+    const totalCost = data.items.reduce((sum, item) => sum + item.amount.totalCost, 0);
+
+    return (
+      <SafeAreaView style={{ marginTop: 15, marginBottom: 15, marginHorizontal: 5 }}>
+        <Card style={styles.catCard}>
+          <Card.Content>
+            <View style={styles.cardRow}>
+              <Text variant="titleMedium">{data.type}</Text>
+              <Text>${totalCost}</Text>
+            </View>
+            {data.items.map((item, index) => (
+              <CategoryItem
+                key={index}
+                category={{
+                  name: item.name,
+                  totalCost: item.amount.totalCost,
+                  currentAmount: item.amount.currentAmount
+                }}
+              />
+            ))}
+          </Card.Content>
+        </Card>
+      </SafeAreaView>
+    );
+  };
+
+  const renderCategoriesContent = () => {
+    return (
+      <View style={{ padding: 16 }}>
+        <SafeAreaView style={{ marginTop: 15, marginBottom: 15}}>
+          <SegmentedButtons
+            value={value}
+            onValueChange={setValue}
+            buttons={[
+              { value: '0', label: '7D' },
+              { value: '1', label: '1M' },
+              { value: '2', label: '6M' },
+              { value: '3', label: '1Y' },
+              { value: '4', label: 'Max' },
+            ]}
+          />
+        </SafeAreaView>
+
+        <FlatList
+          data={listOfLists}
+          renderItem={({ item }) => <CategoryTypeCard data={item} />}
+          keyExtractor={(item) => item.type}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      </View>
+    );
+  };
+
+  //Based on active tab
+  const renderContent = () => {
+    if (activeTab === 'plans') {
+      return (
+        <FlatList
+          data={sortedPlan}
+          renderItem={({ item }) => <PlannerCard data={item} />}
+          keyExtractor={(item) => item.title}
+          contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      );
+    } else {
+      return renderCategoriesContent();
+    }
   };
 
   return (
@@ -83,19 +203,28 @@ export default function Planner({ navigation }) {
         leftIcon="cog"
         rightIcon="plus"
         onLeftPress={() => navigation.navigate('SettingsScreen', {})}
-        onRightPress={settingsPressed}
+      //onRightPress={}
       />
       <View style={styles.row}>
-        <ButtonText pageName='PlannerPlanScreen' text='Plans'></ButtonText>
-        <ButtonText pageName='PlannerCatScreen' text='Categories'></ButtonText>
+        <View>
+          <Button onPress={() => setActiveTab('plans')} style={{ backgroundColor: 'transparent' }}>
+            <Text style={{ color: activeTab === 'plans' ? theme.colors.primary : 'gray' }}>
+              Plans
+            </Text>
+          </Button>
+          <Divider style={[{ backgroundColor: activeTab === 'plans' ? theme.colors.primary : 'transparent' }, { height: 3 }]} bold={true} />
+        </View>
+        <View>
+          <Button onPress={() => setActiveTab('categories')} style={{ backgroundColor: 'transparent' }}>
+            <Text style={{ color: activeTab === 'categories' ? theme.colors.primary : 'gray' }}>
+              Categories
+            </Text>
+          </Button>
+          <Divider style={[{ backgroundColor: activeTab === 'categories' ? theme.colors.primary : 'transparent' }, { height: 3 }]} bold={true} />
+        </View>
       </View>
       <Divider />
-      <FlatList
-        data={sortedInfo}
-        renderItem={({ item }) => <PlannerCard data={item} />}
-        keyExtractor={(item) => item.title}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      />
+      {renderContent()}
     </View>
   );
 }
@@ -113,6 +242,7 @@ const styles = StyleSheet.create({
   cardRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   buttonTitle: {
     alignItems: 'center'
@@ -128,10 +258,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     elevation: 3, // Shadow effect
   },
-  floatingButton: {
-    position: 'absolute',
-    right: 20,
-    bottom: 20,
-    borderRadius: 50
+  catCard: {
+    backgroundColor: '#fff',
+    elevation: 3, // Shadow effect
   }
 });

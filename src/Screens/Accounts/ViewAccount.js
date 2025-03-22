@@ -10,7 +10,6 @@ export default function ViewAccount({ navigation, route }) {
   const { accountData } = route.params || {};
 
   //For Charts
-  console.log(theme.colors.elevation.level5)
   const rgbStringToHex = (rgbString) => {
     // Extract the RGB values from the string
     const rgbRegex = /rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/;
@@ -51,6 +50,7 @@ export default function ViewAccount({ navigation, route }) {
   };
 
   const data = {
+    labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
       {
         data: [20, 45, 28, 80, 99, 43],
@@ -63,14 +63,14 @@ export default function ViewAccount({ navigation, route }) {
   console.log(accountData)
 
   return (
-    <View style={{ marginTop: 20, marginHorizontal: 20 }}>
+    <View onLayout={handleLayout} style={{ marginTop: 20, marginHorizontal: 20 }}>
       <Card style={{ marginTop: 10, marginBottom: 5 }}>
         <Card.Content style={styles.row}>
           <Text variant="titleMedium">Balance</Text>
           <Text variant="titleMedium">${accountData.balance}</Text>
         </Card.Content>
       </Card>
-      <Card onLayout={handleLayout} style={{ marginTop: 10, marginBottom: 5 }}>
+      <Card style={{ marginTop: 10, marginBottom: 5 }}>
         <LineChart
           data={data}
           withShadow={false}
@@ -78,6 +78,7 @@ export default function ViewAccount({ navigation, route }) {
           withOuterLines={false}
           withVerticalLabels={false}
           withHorizontalLabels={false}
+          fromZero={false}
           width={cardWidth}
           height={150}
           verticalLabelRotation={30}
@@ -95,18 +96,17 @@ export default function ViewAccount({ navigation, route }) {
           <Text variant="titleMedium">Up ##% from last month</Text>
         </Card.Content>
       </Card>
-
-      <Card onLayout={handleLayout} style={{ marginTop: 10, marginBottom: 5 }}>
+      <Card style={{ marginTop: 10, marginBottom: 5 }}> // For the barchart
         <BarChart
           data={data}
+          fromZero={true}
           width={cardWidth}
-          withVerticalLabels={false}
           withHorizontalLabels={false}
           withInnerLines={false}
           height={220}
           yAxisLabel="$"
           chartConfig={chartConfig}
-          verticalLabelRotation={30}
+          verticalLabelRotation={0}
         />
       </Card>
     </View>
