@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 import Header from '../../Components/Header'
 
-export default function Home() {
+export default function Home(navigation) {
   const profilePressed = () => {
     // Add handling logic
   };
