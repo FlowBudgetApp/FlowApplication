@@ -75,6 +75,7 @@ export default function Preload() {
     initializeApp();
   }, []);
 
+  /*
   useEffect(() => {
     Animated.sequence([
       Animated.timing(opacity, {
@@ -103,6 +104,7 @@ export default function Preload() {
       </View>
     );
   }
+  */
 
   return (
     <ThemeProvider>

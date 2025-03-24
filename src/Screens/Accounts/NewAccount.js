@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput, Button } from 'react-native';
+import HARDdata from '../../Components/HardData'; // Added import
 
 export default function NewAccount({ navigation, route }) {
   const [accountName, setAccountName] = useState('');
   const [accountBalance, setAccountBalance] = useState('');
+  const [accountType, setAccountType] = useState('Debit'); // New state variable
 
   const handleAddAccount = () => {
     const newAccount = {
       name: accountName,
       balance: parseFloat(accountBalance),
+      type: accountType
     };
-    route.params.addAccount(newAccount);
+
+    HARDdata.AccountsInfo.push(newAccount);
     navigation.goBack();
   };
 

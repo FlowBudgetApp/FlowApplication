@@ -1,41 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
-import { Text, Card, ProgressBar, IconButton, MD3Colors } from "react-native-paper";
+import { Text, Card } from "react-native-paper";
 import Header from '../../Components/Header';
 import { useTheme } from "../../Components/Theming";
 import { Pressable } from "react-native";
+import HARDdata from '../../Components/HardData';
 
 export default function Accounts({ navigation }) {
   const theme = useTheme();
 
-  const [accounts, setAccounts] = useState([
-    { name: "Account 1", balance: 500, type: "Debit" },
-    { name: "Account 2", balance: 1000, type: "Credit" },
-    { name: "Account 3", balance: 750, type: "Debit" },
-  ]);
-
+  //Accounts Info
+  const [accounts, setAccounts] = useState(HARDdata.AccountsInfo || []);
   const addAccount = (newAccount) => {
     setAccounts([...accounts, newAccount]);
   };
 
-  // Group accounts by type
-  const groupedAccounts = accounts.reduce((acc, account) => {
-    if (!acc[account.type]) acc[account.type] = [];
-    acc[account.type].push(account);
-    return acc;
-  }, {});
-
-
-  // Calculate total balance
-  const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
-
-  const data = [
-    { type: "NetWorth", totalBalance, groupedAccounts }, // Net worth block
-    ...Object.keys(groupedAccounts).map((type) => ({ type, accounts: groupedAccounts[type] })), // Account types
-  ];
+  //Get the grouped data
+  const data = HARDdata.groupAccountsByType();
 
   const renderItem = ({ item }) => {
-    if (item.type === "NetWorth") { //NET WORTH HERE
+    if (item.type === "NetWorth") {
       return (
         <View style={{ marginHorizontal: 20 }}>
           <Text variant="headlineSmall">Net Worth</Text>
@@ -49,7 +33,7 @@ export default function Accounts({ navigation }) {
       );
     }
     const totalAmount = item.accounts.reduce((sum, account) => sum + account.balance, 0)
-    return ( // ACCOUNT WORK
+    return (
       <View style={{ marginTop: 20, marginHorizontal: 20 }}>
         <View style={styles.row}>
           <Text variant="headlineSmall">{item.type}</Text>
@@ -78,7 +62,7 @@ export default function Accounts({ navigation }) {
     );
   };
 
-  return ( // PROGRAM START
+  return (
     <View style={{ flex: 1 }}>
       <Header
         title="Accounts"
@@ -102,7 +86,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     marginBottom: 0,
     backgroundColor: '#fff',
-    elevation: 3, // Shadow effect
+    elevation: 3,
   },
   floatingButton: {
     position: 'absolute',
@@ -115,4 +99,4 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-})
+});

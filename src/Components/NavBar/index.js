@@ -12,16 +12,12 @@ import AccountsScreen from '../../Screens/Accounts';
 import ViewAccountScreen from '../../Screens/Accounts/ViewAccount'
 import NewAccountScreen from '../../Screens/Accounts/NewAccount';
 import PlannerScreen from '../../Screens/Planner';
-import PlannerPlanScreen from '../../Screens/Planner/PlanScreen';
-import PlannerCatScreen from '../../Screens/Planner/CatScreen';
 import SettingsScreen from '../../Screens/Settings'
 
 const subScreens = { //ADD THE NEW SCREENS HERE PLEASE
   "TransactionExtra": TransactionsExtra,
   "NewAccount": NewAccountScreen,
   "ViewAccount": ViewAccountScreen,
-  "PlannerCatScreen": PlannerCatScreen,
-  "PlannerPlanScreen": PlannerPlanScreen,
   "SettingsScreen": SettingsScreen
 }
 

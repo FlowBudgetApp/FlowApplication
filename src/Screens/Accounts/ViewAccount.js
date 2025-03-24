@@ -39,17 +39,17 @@ export default function ViewAccount({ navigation, route }) {
     setCardWidth(width);
   };
   const chartConfig = {
-    backgroundGradientFrom: rgbStringToHex(theme.colors.elevation.level5),
+    backgroundGradientFrom: rgbStringToHex(theme.colors.elevation.level1),
     backgroundGradientFromOpacity: 1,
-    backgroundGradientTo: rgbStringToHex(theme.colors.elevation.level5),
+    backgroundGradientTo: rgbStringToHex(theme.colors.elevation.level1),
     backgroundGradientToOpacity: 1,
     color: () => theme.colors.primary,
     strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false // optional
+    barPercentage: 1,
+    useShadowColorFromDataset: false, // optional
   };
 
-  const data = {
+  const chartData = {
     labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
       {
@@ -59,12 +59,13 @@ export default function ViewAccount({ navigation, route }) {
       }
     ],
   };
+  const div = Math.floor(chartData.datasets[0].data[chartData.labels.length - 1] / chartData.datasets[0].data[chartData.labels.length - 2] * 100)
 
   console.log(accountData)
-
+ 
   return (
-    <View onLayout={handleLayout} style={{ marginTop: 20, marginHorizontal: 20 }}>
-      <Card style={{ marginTop: 10, marginBottom: 5 }}>
+    <View onLayout={handleLayout} style={{ marginTop: 10, marginHorizontal: 20, backgroundColor: theme.colors.elevation.level1 }}>
+      <Card style={{ marginTop: 5, marginBottom: 10}}>
         <Card.Content style={styles.row}>
           <Text variant="titleMedium">Balance</Text>
           <Text variant="titleMedium">${accountData.balance}</Text>
@@ -72,7 +73,7 @@ export default function ViewAccount({ navigation, route }) {
       </Card>
       <Card style={{ marginTop: 10, marginBottom: 5 }}>
         <LineChart
-          data={data}
+          data={chartData}
           withShadow={false}
           withDots={false}
           withOuterLines={false}
@@ -80,31 +81,34 @@ export default function ViewAccount({ navigation, route }) {
           withHorizontalLabels={false}
           fromZero={false}
           width={cardWidth}
-          height={150}
+          height={100}
           verticalLabelRotation={30}
           chartConfig={chartConfig}
           withInnerLines={false}
           bezier
         />
-        <Card.Content style={[styles.row, { backgroundColor: theme.colors.elevation.level5 }]}>
-          <Text variant="titleSmall">Month</Text>
-          <Text variant="titleSmall">Month</Text>
-        </Card.Content>
-        <Divider></Divider>
-        <Card.Content style={[styles.row, { backgroundColor: theme.colors.elevation.level5 }]}>
-          <Text variant="titleMedium">Month-Month</Text>
-          <Text variant="titleMedium">Up ##% from last month</Text>
+        <Card.Content>
+          <View style={[styles.row, {marginBottom: 7}]}>
+            <Text variant="titleSmall">{chartData.labels[0]}</Text>
+            <Text variant="titleSmall">{chartData.labels[chartData.labels.length - 1]}</Text>
+          </View>
+          <Divider></Divider>
+          <View style={styles.row}>
+            <Text variant="titleMedium">{chartData.labels[0]}-{chartData.labels[chartData.labels.length - 1]}</Text>
+            <Text variant="titleMedium">Changed by {div}% from last month </Text>
+          </View>
         </Card.Content>
       </Card>
-      <Card style={{ marginTop: 10, marginBottom: 5 }}> // For the barchart
+      <Card style={{ marginTop: 10, marginBottom: 5 }}>
         <BarChart
-          data={data}
+          data={chartData}
           fromZero={true}
           width={cardWidth}
           withHorizontalLabels={false}
           withInnerLines={false}
-          height={220}
-          yAxisLabel="$"
+          height={200}
+          showValuesOnTopOfBars={true}
+          withHorizontalLines={false}
           chartConfig={chartConfig}
           verticalLabelRotation={0}
         />

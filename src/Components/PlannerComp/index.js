@@ -1,19 +1,24 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ProgressBar, MD3Colors, Text} from 'react-native-paper';
+import { useTheme } from "../../Components/Theming";
 
-const CategoryItem = ({ category }) => (
-  <View style={{marginBottom: 5}}>
-    <View style={styles.row}>
-      <Text variant='titleSmall'>{category.name}</Text>
-      <Text variant='titleSmall'>${category.totalCost}</Text>
+const CategoryItem = ({ category }) => {
+  const { theme, toggleTheme, updateColors } = useTheme();
+  
+  return (
+    <View style={{marginBottom: 5}}>
+      <View style={styles.row}>
+        <Text variant='titleSmall'>{category.name}</Text>
+        <Text variant='titleSmall'>${category.totalCost}</Text>
+      </View>
+      <View style={styles.newRow}>
+        <ProgressBar style={{borderRadius: 50, width: 275}} progress={category.currentAmount / category.totalCost} color={theme.colors.primary} />
+        <Text variant='bodySmall'>Left ${category.totalCost - category.currentAmount}</Text>
+      </View>
     </View>
-    <View style={styles.newRow}>
-      <ProgressBar style={{borderRadius: 50,width: 275}} progress={category.currentAmount / category.totalCost} color={MD3Colors.error50} />
-      <Text variant="bodySmall">Left ${category.totalCost - category.currentAmount}</Text>
-    </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   progRow: {flexDirection: 'row',alignItems: 'center'},

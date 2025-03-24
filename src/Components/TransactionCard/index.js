@@ -48,7 +48,6 @@ export default function TransactionCard(data) {
 
 const styles = StyleSheet.create({
     card: {
-        marginHorizontal: 16,
         marginVertical: 8,
         overflow: 'hidden',
     },
