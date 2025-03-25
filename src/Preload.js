@@ -74,31 +74,47 @@ export default function Preload() {
 
     initializeApp();
   }, []);
+  
+const [scale] = useState(new Animated.Value(1));
 
   useEffect(() => {
-    Animated.sequence([
+    Animated.parallel([
       Animated.timing(opacity, {
         toValue: 1,
         duration: 1000,
         useNativeDriver: true,
       }),
-      Animated.delay(2000),
-      Animated.timing(opacity, {
-        toValue: 0,
+      Animated.timing(scale, {
+        toValue: 1.1,
         duration: 1000,
         useNativeDriver: true,
       }),
     ]).start(() => {
-      setAnimationComplete(true);
+      Animated.sequence([
+        Animated.delay(2000),
+        Animated.parallel([
+          Animated.timing(opacity, {
+            toValue: 0,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(scale, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ]),
+      ]).start(() => setAnimationComplete(true));
     });
   }, []);
+  
 
   if (loading || !animationComplete) {
     return (
       <View style={styles.container}>
         <Animated.Image
-          source={require('../assets/Launch/loading.png')}
-          style={[styles.logo, { opacity }]}
+          source={require('../assets/FlowBudgetAppLogo.png')}
+          style={[styles.logo, { opacity, transform: [{ scale }] }]}
         />
       </View>
     );
@@ -124,12 +140,14 @@ const ThemedApp = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff', // Change this to match the app’s branding color, if needed
   },
   logo: {
-    width: 300,
-    height: 300,
+    width: '80%', // Adjust width to avoid potential stretching
+    height: undefined,
+    aspectRatio: 1, // Keeps the image proportional
+    resizeMode: 'contain', // "contain" prevents clipping
   },
 });
