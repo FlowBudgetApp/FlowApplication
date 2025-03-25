@@ -150,6 +150,11 @@ const HARDdata = {
         { name: "Account 2", balance: 1000, type: "Credit" },
         { name: "Account 3", balance: 750, type: "Debit" },
     ],
+    Spending: [
+        { name: 'Food', amount: 56.78, color: '#FF6384' },
+        { name: 'Transport', amount: 24.50, color: '#36A2EB' },
+        { name: 'Entertain', amount: 14.99, color: '#FFCE56' },
+    ],
     groupAccountsByType: function() {
         // Calculate total balance
         const totalBalance = this.AccountsInfo.reduce((sum, acc) => sum + acc.balance, 0);

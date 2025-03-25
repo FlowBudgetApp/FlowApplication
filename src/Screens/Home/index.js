@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, SafeAreaView} from 'react-native';
-import { ProgressBar, Text, Divider } from 'react-native-paper';
+import { View, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import { ProgressBar, Text, Divider, Card } from 'react-native-paper';
 import Header from '../../Components/Header'
 import HARDdata from '../../Components/HardData';
 import TransactionCard from '../../Components/TransactionCard';
 import CategoryHandle from '../../Components/PlannerComp/catHandler';
 import { useTheme } from '../../Components/Theming';
+import { PieChart } from 'react-native-chart-kit';
 
-export default function Home(navigation) {
+export default function Home({navigation}) {
   const { theme } = useTheme();
   const accountData = HARDdata.groupAccountsByType();
   const transactionsData = HARDdata.transactions.slice(0, 3);
   const catData = HARDdata.groupCategoriesByType();
+  const chartData = HARDdata.Spending
 
   const renderAccounts = ({ item }) => {
     if (item.type === "NetWorth") {
@@ -54,7 +56,7 @@ export default function Home(navigation) {
     />
   );
 
-  const sorted = [{ who: "Account", data: accountData }, { who: "Catergories", data: catData }, { who: "Transactions", data: transactionsData }]
+  const sorted = [{ who: "Account", data: accountData }, { who: "Catergories", data: chartData }, { who: "Transactions", data: transactionsData }]
   const expressHomePage = ({ item }) => {
     if (item.who == "Account") {
       return (
@@ -68,16 +70,29 @@ export default function Home(navigation) {
       )
     } else if (item.who == "Catergories") {
       return (
-        <View style={{ marginTop: 15 }}>
-          <Text variant='headlineSmall'>Category Spending</Text>
-          <Divider></Divider>
-          {catData.map(item => (
-            <CategoryHandle
-              key={item.type}
-              data={item}
+        <Card style={[styles.card, {marginTop: 20}]}>
+          <Card.Content>
+            <Text variant="headlineSmall" style={styles.heading}>
+              Spending Categories
+            </Text>
+            <PieChart
+              data={item.data.map(({ name, amount, color }) => ({
+                name,
+                amount,
+                color,
+              }))}
+              width={300}
+              height={200}
+              chartConfig={{
+                color: () => `#333`,
+              }}
+              accessor="amount"
+              backgroundColor="transparent"
+              paddingLeft="15"
+              absolute
             />
-          ))}
-        </View>
+          </Card.Content>
+        </Card>
       )
     } else if (item.who == "Transactions") {
       return (
@@ -102,12 +117,12 @@ export default function Home(navigation) {
         rightIcon="bell"
         onLeftPress={() => navigation.navigate('SettingsScreen', {})}
       />
-      <FlatList 
-        style={{ 
-          marginTop: 10, 
+      <FlatList
+        style={{
+          marginTop: 10,
           marginHorizontal: 20,
         }}
-        contentContainerStyle={{ 
+        contentContainerStyle={{
           paddingBottom: 80 // Add significant bottom padding
         }}
         data={sorted}
