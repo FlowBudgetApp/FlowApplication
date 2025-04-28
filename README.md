@@ -2,11 +2,12 @@
 # Expo Project
 
 ## Overview
-This is an Expo project - a framework for building native iOS, Android, and web applications using React.
+A budget app
 
 ## Website
 https://flowbudgetapp.tiiny.site/
 
+## Getting Started
 ### Prerequisites
 - Node.js
 - npm
