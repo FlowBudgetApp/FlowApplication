@@ -1,4 +1,3 @@
-```markdown
 # Expo Project
 
 ## Overview
@@ -29,4 +28,4 @@ https://flowbudgetapp.tiiny.site/
    ```bash
    expo start
    ```
-```
+
