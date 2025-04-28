@@ -1,4 +1,4 @@
-# Expo Project
+# Flow Budget App
 
 ## Overview
 FlowBudget is designed to help users track their expenses, manage their budget, and achieve their financial goals. 
