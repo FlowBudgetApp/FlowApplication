@@ -1,7 +1,7 @@
 # Expo Project
 
 ## Overview
-A budget app
+FlowBudget is designed to help users track their expenses, manage their budget, and achieve their financial goals. 
 
 ## Website
 https://flowbudgetapp.tiiny.site/
@@ -15,7 +15,7 @@ https://flowbudgetapp.tiiny.site/
 ### Installation
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/your-expo-project.git
+   git clone https://github.com/FlowBudgetApp/FlowApplication.git
    cd your-expo-project
    ```
 
