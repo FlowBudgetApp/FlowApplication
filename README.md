@@ -1,5 +1,5 @@
 # Flow (Open Source Budgeting App)
-![App Logo](app_icon.png)
+<img src="app_icon.png" width="500" alt="App Logo">
 
 This finance tracker is your personal finance companion for effortless money management. Track accounts, monitor spending, and plan budgets while keeping your financial data completely private.
 
