@@ -1,10 +1,7 @@
-# Flow Budget App
-![App Logo](app_logo.png)
+# Flow (Open Source Budgeting App)
+![App Logo](app_icon.png)
 
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="60">](https://play.google.com/store)
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org)
-
-Finance Tracker is your personal finance companion for effortless money management. Track accounts, monitor spending, and plan budgets while keeping your financial data completely private.
+This finance tracker is your personal finance companion for effortless money management. Track accounts, monitor spending, and plan budgets while keeping your financial data completely private.
 
 ## 💰 COMPLETE FINANCIAL OVERVIEW:
 View your net worth, account balances, and spending patterns all in one place. The intuitive dashboard gives you immediate insight into your financial health.
