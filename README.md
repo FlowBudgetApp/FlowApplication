@@ -2,12 +2,12 @@
 
 This finance tracker is your personal finance companion for effortless money management. Track accounts, monitor spending, and plan budgets while keeping your financial data completely private.
 
-<img src="app_home.png" width="200" alt="App Logo">
+<img src="app_home.png" width="230" alt="App Logo"> <img src="app_run.gif" width="200" alt="App Logo">
 
 ## 💰 COMPLETE FINANCIAL OVERVIEW:
 View your net worth, account balances, and spending patterns all in one place. The intuitive dashboard gives you immediate insight into your financial health.
 
-<img src="app_run.gif" width="200" alt="App Logo">
+
 
 ## 📊 POWERFUL CATEGORIZATION:
 Organize transactions with a customizable category system. Create parent and sub-categories to track spending exactly how you want and visualize where your money goes.
